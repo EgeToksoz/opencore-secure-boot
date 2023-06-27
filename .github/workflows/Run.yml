@@ -22,8 +22,5 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Run sbsigntool
-      run: ver=$(curl --silent "https://api.github.com/repos/acidanthera/OpenCorePkg/releases/latest" |
-           grep '"tag_name":' |
-           sed -E 's/.*"([^"]+)".*/\1/') 
-           chmod +x ${PWD}/sign_opencore.sh;${PWD}/sign_opencore.sh https://github.com/acidanthera/OpenCorePkg/releases/download/{$ver}/OpenCore-${ver}-RELEASE.zip ${ver}
+      run:  chmod +x ${PWD}/sign_opencore.sh;${PWD}/sign_opencore.sh https://github.com/acidanthera/OpenCorePkg/releases/download/${{ env.Version }}/OpenCore-${{ env.Version }}-RELEASE.zip ${{ env.Version }}
     - uses: stefanzweifel/git-auto-commit-action@v4
