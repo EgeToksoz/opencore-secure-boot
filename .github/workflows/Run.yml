@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     name: get ver
     steps:
-    - run: ver=$(curl --silent "https://api.github.com/repos/acidanthera/OpenCorePkg/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/');echo "ver=$ver" >> "$GITHUB_ENV"
+    - run: ver=$(curl --silent "https://api.github.com/repos/acidanthera/OpenCorePkg/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/');"$ver" >> "$GITHUB_ENV"
   secure:
     runs-on: ubuntu-latest
     permissions:
