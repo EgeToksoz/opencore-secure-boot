@@ -1,0 +1,29 @@
+name: secureboot
+on:
+  schedule:
+    - cron:  '0 12 17 * *'
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      name:
+        # Friendly description to be shown in the UI instead of 'name'
+        description: 'Person to greet'
+        # Default value if no value is explicitly provided
+        default: 'World'
+        # Input has to be provided for the workflow to run
+        required: true
+        # The data type of the input
+        type: string
+jobs:
+  secure:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v3
+    - name: Run sbsigntool
+      run: get_latest_release() {curl --silent "https://api.github.com/repos/acidanthera/OpenCorePkg/releases/latest" | ver=$(grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')}
+    chmod +x ${PWD}/sign_opencore.sh
+    ${PWD}/sign_opencore.sh https://github.com/acidanthera/OpenCorePkg/releases/download/$ver/OpenCore-$ver-RELEASE.zip $ver
+    - uses: stefanzweifel/git-auto-commit-action@v4
+
