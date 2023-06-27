@@ -22,7 +22,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Run sbsigntool
-      run: ver=$(curl --silent "https://api.github.com/repos/acidanthera/OpenCorePkg/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/');echo "{version}={$ver}" >> "$GITHUB_ENV";wget "https://github.com/acidanthera/OpenCorePkg/releases/download/${{GITHUB.ENV}}/OpenCore-${{GITHUB.ENV}}"-RELEASE.zip"
+      run: ver=$(curl --silent "https://api.github.com/repos/acidanthera/OpenCorePkg/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/');echo "{$ver}" >> "$GITHUB_ENV";wget "https://github.com/acidanthera/OpenCorePkg/releases/download/${{GITHUB.ENV}}/OpenCore-${{GITHUB.ENV}}"-RELEASE.zip"
            unzip "OpenCore-${{GITHUB.ENV}}-RELEASE.zip" "X64/*" -d "./Downloaded"
            rm "OpenCore-${{GITHUB.ENV}}-RELEASE.zip"
            wget https://github.com/acidanthera/OcBinaryData/raw/master/Drivers/HfsPlus.efi -O ./Downloaded/X64/EFI/OC/Drivers/HfsPlus.efi
