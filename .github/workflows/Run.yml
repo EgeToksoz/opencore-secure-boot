@@ -15,6 +15,12 @@ on:
         # The data type of the input
         type: string
 jobs:
+  version:
+    runs-on: ubuntu-latest
+    name: get ver
+    steps:
+    - run: ver=$(curl --silent "https://api.github.com/repos/acidanthera/OpenCorePkg/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/'); echo "$ver"
+           echo "VERSION=${ver}" >> $GITHUB_ENV
   secure:
     runs-on: ubuntu-latest
     permissions:
@@ -22,10 +28,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Run sbsigntool
-      run: ver=$(curl --silent "https://api.github.com/repos/acidanthera/OpenCorePkg/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/'); echo "$ver"
-           wget "https://github.com/acidanthera/OpenCorePkg/releases/download/echo "$ver"/OpenCore-echo "$ver"-RELEASE.zip"
-           unzip "OpenCore-echo "$ver"-RELEASE.zip" "X64/*" -d "./Downloaded"
-           rm "OpenCore-echo "$ver"-RELEASE.zip"
+      run: wget "https://github.com/acidanthera/OpenCorePkg/releases/download/$GITHUB_ENV/OpenCore-$GITHUB_ENV-RELEASE.zip"
+           unzip "OpenCore-$GITHUB_ENV-RELEASE.zip" "X64/*" -d "./Downloaded"
+           rm "OpenCore-$GITHUB_ENV-RELEASE.zip"
            wget https://github.com/acidanthera/OcBinaryData/raw/master/Drivers/HfsPlus.efi -O ./Downloaded/X64/EFI/OC/Drivers/HfsPlus.efi
           find ./Downloaded/X64/EFI/**/* -type f -name "*.efi" ! -name '.*' | cut -c 3- | xargs -I{} bash -c 'sbsign --key ISK.key --cert ISK.pem --output $(mkdir -p $(dirname "./Signed/{}") | echo "./Signed/{}") ./{}'
           rm -rf Downloaded
