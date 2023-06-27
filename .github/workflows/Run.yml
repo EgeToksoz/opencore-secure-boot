@@ -22,8 +22,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Run sbsigntool
-      env: $vers
-      run: vers=$(curl --silent "https://api.github.com/repos/acidanthera/OpenCorePkg/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+      run: vers=$(curl "https://api.github.com/repos/acidanthera/OpenCorePkg/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/') echo "$vers" >> "$GITHUB_ENV"
            wget "https://github.com/acidanthera/OpenCorePkg/releases/download/${{env.GITHUB_ENV}}/OpenCore-${{env.GITHUB_ENV}}-RELEASE.zip"
            unzip "OpenCore-${{env.GITHUB_ENV}}-RELEASE.zip" "X64/*" -d "./Downloaded"
            rm "OpenCore-${{env.GITHUB_ENV}}-RELEASE.zip"
