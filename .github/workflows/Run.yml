@@ -15,11 +15,6 @@ on:
         # The data type of the input
         type: string
 jobs:
-  version:
-    runs-on: ubuntu-latest
-    name: get ver
-    steps:
-    - run: ver=$(curl --silent "https://api.github.com/repos/acidanthera/OpenCorePkg/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/') | echo "BUILD_VERSION=$ver" >> $GITHUB_ENV
   secure:
     runs-on: ubuntu-latest
     permissions:
@@ -27,9 +22,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Run sbsigntool
-      env:
-        Version: '$ver'
-      run: wget "https://github.com/acidanthera/OpenCorePkg/releases/download/${{env.vers}}/OpenCore-${{env.vers}}-RELEASE.zip"
+      run: ver=$(curl --silent "https://api.github.com/repos/acidanthera/OpenCorePkg/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/') | echo "BUILD_VERSION=$ver" >> $env.vers
+           wget "https://github.com/acidanthera/OpenCorePkg/releases/download/${{env.vers}}/OpenCore-${{env.vers}}-RELEASE.zip"
            unzip "OpenCore-${{env.vers}}-RELEASE.zip" "X64/*" -d "./Downloaded"
            rm "OpenCore-${{env.vers}}-RELEASE.zip"
            wget https://github.com/acidanthera/OcBinaryData/raw/master/Drivers/HfsPlus.efi -O ./Downloaded/X64/EFI/OC/Drivers/HfsPlus.efi
