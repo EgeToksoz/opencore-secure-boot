@@ -18,7 +18,8 @@ jobs:
   version:
     runs-on: ubuntu-latest
     name: get ver
-    run: ver=$(curl --silent "https://api.github.com/repos/acidanthera/OpenCorePkg/releases/latest" 
+    steps:
+    - run: ver=$(curl --silent "https://api.github.com/repos/acidanthera/OpenCorePkg/releases/latest" 
          grep '"tag_name":'
          sed -E 's/.*"([^"]+)".*/\1/')
   secure:
