@@ -27,9 +27,11 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Run sbsigntool
-      run: wget "https://github.com/acidanthera/OpenCorePkg/releases/download/${{env.GITHUB.ENV}}/OpenCore-${{env.GITHUB.ENV}}"-RELEASE.zip"
-           unzip "OpenCore-${{env.GITHUB.ENV}}-RELEASE.zip" "X64/*" -d "./Downloaded"
-           rm "OpenCore-${{env.GITHUB.ENV}}-RELEASE.zip"
+      env:
+        Version: '$vers'
+      run: wget "https://github.com/acidanthera/OpenCorePkg/releases/download/${{env.vers}}/OpenCore-${{env.vers}}-RELEASE.zip"
+           unzip "OpenCore-${{env.vers}}-RELEASE.zip" "X64/*" -d "./Downloaded"
+           rm "OpenCore-${{env.vers}}-RELEASE.zip"
            wget https://github.com/acidanthera/OcBinaryData/raw/master/Drivers/HfsPlus.efi -O ./Downloaded/X64/EFI/OC/Drivers/HfsPlus.efi
           find ./Downloaded/X64/EFI/**/* -type f -name "*.efi" ! -name '.*' | cut -c 3- | xargs -I{} bash -c 'sbsign --key ISK.key --cert ISK.pem --output $(mkdir -p $(dirname "./Signed/{}") | echo "./Signed/{}") ./{}'
           rm -rf Downloaded
