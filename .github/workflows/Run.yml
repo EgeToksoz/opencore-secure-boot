@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     name: get ver
     steps:
-    - run: ver=$(curl --silent "https://api.github.com/repos/acidanthera/OpenCorePkg/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/');echo "{version}={$ver}" >> "$GITHUB_ENV"
+    - run: ver=$(curl --silent "https://api.github.com/repos/acidanthera/OpenCorePkg/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/');echo "$ver" >> "$GITHUB_ENV"
   secure:
     runs-on: ubuntu-latest
     permissions:
@@ -28,7 +28,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: Run sbsigntool
       env:
-        Version: '$vers'
+        Version: '$ver'
       run: wget "https://github.com/acidanthera/OpenCorePkg/releases/download/${{env.vers}}/OpenCore-${{env.vers}}-RELEASE.zip"
            unzip "OpenCore-${{env.vers}}-RELEASE.zip" "X64/*" -d "./Downloaded"
            rm "OpenCore-${{env.vers}}-RELEASE.zip"
