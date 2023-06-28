@@ -1,4 +1,4 @@
-name: secureboot3
+name: Opencore Secure Boot Generator
 on:
   workflow_dispatch:
     # Inputs the workflow accepts.
@@ -21,14 +21,11 @@ jobs:
         env:
           LEVEL: ${{ inputs.version }}
   build:
-
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-    - uses: actions/checkout@v3, stefanzweifel/git-auto-commit-action@v4
-    # Runs a single command using the runners shell
-    - name: Send greeting
-      run: wget -q "https://github.com/acidanthera/OpenCorePkg/releases/download/${{ inputs.version }}/OpenCore-${{ inputs.version }}-RELEASE.zip";unzip "OpenCore-${{ inputs.version }}-RELEASE.zip" "X64/*" -d "./Downloaded"
     permissions:
       contents: write
+    steps:
+    - uses: actions/checkout@v3
+    - name: Run sbsigntool
+      run: wget -q "https://github.com/acidanthera/OpenCorePkg/releases/download/${{ inputs.version }}/OpenCore-${{ inputs.version }}-RELEASE.zip";unzip "OpenCore-${{ inputs.version }}-RELEASE.zip" "X64/*" -d "./Downloaded";rm -rf Downloaded
+    - uses: stefanzweifel/git-auto-commit-action@v4
