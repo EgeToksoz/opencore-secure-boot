@@ -12,8 +12,9 @@ on:
         required: true
         # The data type of the input
         type: string
-          env:
-          LEVEL: ${{ inputs.version }}
+        
+env:
+  LEVEL: ${{ inputs.version }}
 jobs:
   Get-Opencore:
     runs-on: ubuntu-latest
