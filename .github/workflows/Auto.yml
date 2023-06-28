@@ -1,7 +1,7 @@
-name: Automatic Opencore Secure Boot Generator
+name: Automatic Opencore Secure Boot Generator(Not Working)
 on:
-  schedule:
-    - cron:  '0 12 17 * *'
+  #schedule:
+    #- cron:  '0 12 17 * *'
   workflow_dispatch:
     # Inputs the workflow accepts.
     inputs:
