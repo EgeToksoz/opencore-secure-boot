@@ -12,6 +12,16 @@ on:
         required: true
         # The data type of the input
         type: string
+      build: 
+      # Friendly description to be shown in the UI instead of 'name'
+        description: 'Build output'
+        # Default value if no value is explicitly provided
+        default: 'Signed/Downloaded/X64'
+        # Input has to be provided for the workflow to run
+        required: true
+        # The data type of the input
+        type: string
+        
 jobs:
   Get-Version:
     runs-on: ubuntu-latest
@@ -20,7 +30,7 @@ jobs:
           echo "$version"
         env:
           LEVEL: ${{ inputs.version }}
-          BUILD_OUTPUT: 'Signed/Downloaded/X64'
+          BUILD_OUTPUT: ${{ inputs.build }}
   Get-Opencore:
     runs-on: ubuntu-latest
     permissions:
@@ -35,12 +45,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
         - run: |
-            cd $BUILD_OUTPUT
+            cd ${{ inputs.build }}
             zip -r opencore-${{ inputs.version }}.zip
             cd -
               if: contains(github.event.head_commit.message, 'Bump version') == false
               uses: ncipollo/release-action@v1.12.0
               with:
              prerelease: false
-             artifacts: "${{ env.BUILD_OUTPUT }}/*.zip"
+             artifacts: "${{ inputs.build }}/*.zip"
              token: ${{ secrets.GITHUB_TOKEN }}
