@@ -36,5 +36,5 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Run sbsigntool
-      run: sleep 6;wget -q "https://github.com/acidanthera/OpenCorePkg/releases/download/${{ inputs.version }}/OpenCore-${{ inputs.version }}-RELEASE.zip";unzip "OpenCore-${{ inputs.version }}-RELEASE.zip" "X64/*" -d "./Downloaded";rm -rf "OpenCore-${{ inputs.version }}-RELEASE.zip"
+      run: sleep 6;wget -q "https://github.com/acidanthera/OpenCorePkg/releases/download/${{ inputs.version }}/OpenCore-${{ inputs.version }}-RELEASE.zip";unzip -o "OpenCore-${{ inputs.version }}-RELEASE.zip" "X64/*" -d "./Downloaded";rm -rf "OpenCore-${{ inputs.version }}-RELEASE.zip"
     - uses: stefanzweifel/git-auto-commit-action@v4
