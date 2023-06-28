@@ -38,5 +38,5 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Run sbsigntool
-      run: sleep 6;wget -q "https://github.com/acidanthera/OpenCorePkg/releases/download/${{ inputs.version }}/OpenCore-${{ inputs.version }}-RELEASE.zip";unzip -o "OpenCore-${{ inputs.version }}-RELEASE.zip" "X64/*" -d "./Downloaded";rm -rf "OpenCore-${{ inputs.version }}-RELEASE.zip";find ./Downloaded/X64/EFI/**/* -type f -name "*.efi" ! -name '.*' | cut -c 3- | xargs -I{} bash -c 'sbsign --key ISK.key --cert ISK.pem --output $(mkdir -p $(dirname "./Signed/{}") | echo "./Signed/{}") ./{}';rm -rf Downloaded;cd ${{ inputs.build }};zip -r opencore-${{ inputs.version }}.zip
+      run: sleep 6;wget -q "https://github.com/acidanthera/OpenCorePkg/releases/download/${{ inputs.version }}/OpenCore-${{ inputs.version }}-RELEASE.zip";unzip -o "OpenCore-${{ inputs.version }}-RELEASE.zip" "X64/*" -d "./Downloaded";rm -rf "OpenCore-${{ inputs.version }}-RELEASE.zip";find ./Downloaded/X64/EFI/**/* -type f -name "*.efi" ! -name '.*' | cut -c 3- | xargs -I{} bash -c 'sbsign --key ISK.key --cert ISK.pem --output $(mkdir -p $(dirname "./Signed/{}") | echo "./Signed/{}") ./{}';rm -rf Downloaded;;zip -r opencore-${{ inputs.version }}.zip "Signed/Downloaded/X64"    
     - uses: stefanzweifel/git-auto-commit-action@v4
