@@ -13,7 +13,7 @@ on:
         # The data type of the input
         type: string
 jobs:
-  clear:
+  Clear-Older-Files:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -22,19 +22,19 @@ jobs:
     - name: Clear older files
       run: rm -rf "./Downloaded"
     - uses: stefanzweifel/git-auto-commit-action@v4
-  log-the-inputs:
+  Get-Version:
     runs-on: ubuntu-latest
     steps:
       - run: |
           echo "$version"
         env:
           LEVEL: ${{ inputs.version }}
-  build:
+  Get-Opencore:
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
     - uses: actions/checkout@v3
     - name: Run sbsigntool
-      run: sleep 15;wget -q "https://github.com/acidanthera/OpenCorePkg/releases/download/${{ inputs.version }}/OpenCore-${{ inputs.version }}-RELEASE.zip";unzip "OpenCore-${{ inputs.version }}-RELEASE.zip" "X64/*" -d "./Downloaded";rm -rf "OpenCore-${{ inputs.version }}-RELEASE.zip"
+      run: sleep 6;wget -q "https://github.com/acidanthera/OpenCorePkg/releases/download/${{ inputs.version }}/OpenCore-${{ inputs.version }}-RELEASE.zip";unzip "OpenCore-${{ inputs.version }}-RELEASE.zip" "X64/*" -d "./Downloaded";rm -rf "OpenCore-${{ inputs.version }}-RELEASE.zip"
     - uses: stefanzweifel/git-auto-commit-action@v4
