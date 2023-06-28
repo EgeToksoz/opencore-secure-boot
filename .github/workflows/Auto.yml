@@ -1,4 +1,4 @@
-name: Automatic Opencore Secure Boot Generator(Not Working)
+name: (Not Working)Automatic Opencore Secure Boot Generator
 on:
   #schedule:
     #- cron:  '0 12 17 * *'
