@@ -29,6 +29,6 @@ jobs:
     - name: Run sbsigntool
       run: sleep 6;wget -q "https://github.com/acidanthera/OpenCorePkg/releases/download/${{ inputs.version }}/OpenCore-${{ inputs.version }}-RELEASE.zip";unzip -o "OpenCore-${{ inputs.version }}-RELEASE.zip" "X64/*" -d "./Downloaded";rm -rf "OpenCore-${{ inputs.version }}-RELEASE.zip";find ./Downloaded/X64/EFI/**/* -type f -name "*.efi" ! -name '.*' | cut -c 3- | xargs -I{} bash -c 'sbsign --key ISK.key --cert ISK.pem --output $(mkdir -p $(dirname "./Signed/{}") | echo "./Signed/{}") ./{}';rm -rf Downloaded;cd "Signed/Downloaded/X64/";zip -r opencore-${{ inputs.version }}.zip EFI;mv opencore-${{ inputs.version }}.zip /home/runner/work/opencore-secure-boot/opencore-secure-boot/
     - uses: actions/upload-artifact@v2
-        with:
-          name: ${{ inputs.version }}
-          path: /home/runner/work/opencore-secure-boot/opencore-secure-boot/opencore-${{ inputs.version }}.zip
+      with:
+        name: ${{ inputs.version }}
+        path: /home/runner/work/opencore-secure-boot/opencore-secure-boot/opencore-${{ inputs.version }}.zip
