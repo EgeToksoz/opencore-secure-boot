@@ -1,18 +1,12 @@
 name: Opencore Secure Boot Generator
 on:
   workflow_dispatch:
-    # Inputs the workflow accepts.
     inputs:
       version: 
-      # Friendly description to be shown in the UI instead of 'name'
         description: 'Version to create'
-        # Default value if no value is explicitly provided
         default: '0.9.3'
-        # Input has to be provided for the workflow to run
         required: true
-        # The data type of the input
         type: string
-        
 env:
   LEVEL: ${{ inputs.version }}
 jobs:
@@ -31,7 +25,7 @@ jobs:
             find ./Downloaded/X64/EFI/**/* -type f -name "*.efi" ! -name '.*' | cut -c 3- | xargs -I{} bash -c 'sbsign --key ISK.key --cert ISK.pem --output $(mkdir -p $(dirname "./Signed/{}") | echo "./Signed/{}") ./{}'
             rm -rf Downloaded
     - uses: actions/upload-artifact@v2
-    
+  
       with:
         name: ${{ inputs.version }}
         path: "/home/runner/work/opencore-secure-boot/opencore-secure-boot/Signed/Downloaded/X64/"
