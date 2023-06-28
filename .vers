@@ -1,1 +1,0 @@
-BUILD_VERSION= wget https://github.com/acidanthera/OpenCorePkg/releases/download//OpenCore--RELEASE.zip unzip OpenCore--RELEASE.zip X64/* -d ./Downloaded rm OpenCore--RELEASE.zip wget https://github.com/acidanthera/OcBinaryData/raw/master/Drivers/HfsPlus.efi -O ./Downloaded/X64/EFI/OC/Drivers/HfsPlus.efi find ./Downloaded/X64/EFI/**/* -type f -name *.efi ! -name .*
