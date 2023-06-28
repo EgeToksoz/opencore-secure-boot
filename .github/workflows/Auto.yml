@@ -1,0 +1,21 @@
+name: Automatic Opencore Secure Boot Generator
+on:
+  schedule:
+    - cron:  '0 12 17 * *'
+jobs:
+  log-the-inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          version=$(curl "https://api.github.com/repos/acidanthera/OpenCorePkg/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+        env:
+          LEVEL: ${{ inputs.version }}
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v3
+    - name: Run sbsigntool
+      run: wget -q "https://github.com/acidanthera/OpenCorePkg/releases/download/${{ inputs.version }}/OpenCore-${{ inputs.version }}-RELEASE.zip";unzip "OpenCore-${{ inputs.version }}-RELEASE.zip" "X64/*" -d "./Downloaded";rm -rf "OpenCore-${{ inputs.version }}-RELEASE.zip"
+    - uses: stefanzweifel/git-auto-commit-action@v4
